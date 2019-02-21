@@ -23,8 +23,8 @@ def  inizializzazione(file):
     return profili
 
 def seguire(prof,user,passs):
-    numero=input('how many?')
-    nome=input('whom?')
+    numero=input('how many?\n')
+    nome=input('whom?\n')
     bot = Bot()
     bot.login(username=user,password=passs)
     if nome not in prof:
@@ -108,7 +108,7 @@ def chiusura(prof):
 
 
 
-start=input('che famo\n 1:seguireseguitori, 2:seguirelikatori')
+start=input('what to do\t 1:follow followers \n 2:follow likers of a post \n')
 user=input('user\n')
 passs=input('password\n')
 
