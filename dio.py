@@ -5,6 +5,7 @@ def  inizializzazione(file):
     profili={}
     bot=Bot()
     bot.max_following_to_followers_ratio = 80
+    #bot.filter_users= False
     for r in f:
         ls=''
         r=r.strip().split(',,,')
@@ -21,10 +22,11 @@ def  inizializzazione(file):
         print(i) 
     return profili
 
-def seguire(nome,numero,prof):
-    
+def seguire(prof,user,passs):
+    numero=input('how many?')
+    nome=input('whom?')
     bot = Bot()
-    bot.login(username='',password='')
+    bot.login(username=user,password=passs)
     if nome not in prof:
         nome_id=bot.get_user_id_from_username(nome)
         seguitori = bot.get_user_followers(nome_id)
@@ -35,24 +37,33 @@ def seguire(nome,numero,prof):
     
     ind=0
     l=[]
-    if numero<len(seguitori):
+    if numero<len(seguitori) and numero !=0:
         while ind<=numero:
             l.append(seguitori[ind])
             ind+=1
         print('numero<len')
     else:
         l=seguitori
+        print('tocca seguire:',len(l),'persone')
+
         
-    for u in l:
+    '''for u in l:
         print('still',ind,'now',u)
         bot.follow(u)
-        ind-=1
+        ind-=1'''
+    bot.follow_users(l)
 
-
+def seguirelike(user,passs):
+    link=input('link')
+    bot=Bot()
+    bot.login(username=user,password=passs)
+    ii=bot.get_media_id_from_link(link)
+    l=bot.get_media_likers(ii)
+    bot.follow_users(l)
 
 def chiusura(prof):
     f=open('profili.txt','w',encoding='utf-8')
-    print('closing',prof)
+    #print('closing',prof)
     for i in prof:
         ids=''
         for el in prof[i][1]:
@@ -97,10 +108,13 @@ def chiusura(prof):
 
 
 
+start=input('che famo\n 1:seguireseguitori, 2:seguirelikatori')
+user=input('user\n')
+passs=input('password\n')
 
-
-numero=int(input('how many?\n'))
-nome=input('whom?\n')
-prof = inizializzazione('profili.txt')
-seguire(nome,numero,prof)
+if start=='1':
+    prof = inizializzazione('profili.txt')   
+    seguire(prof,user,passs)
+elif start=='2':
+    seguirelike(user,passs)
 chiusura(prof)
